@@ -5,3 +5,5 @@ Tatiana Ivanov female female tall tall 8
 Andre Leroy male male medium short 12
 Sam Augusta other male medium tall 16
 Adalbert Weber male other tall tall 24
+Mary Smith2 female male medium tall 25
+Mary Smith3 female male medium tall 18
