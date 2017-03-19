@@ -1,7 +1,4 @@
-Mary Smith female male medium tall 
-Nicholas Clarke male female short tall 90
-Patrick Turner male male short medium 90
-Phillip Mitcherson male male short medium 90
+Mary Smith female male medium tall 22
 Juan Lopez male female medium medium 28
 Leslie Liu other other tall short 12
 Tatiana Ivanov female female tall tall 8
