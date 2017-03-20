@@ -23,9 +23,10 @@ while potential_partners.available():
 #print("There are", partners_loaded, "partners loaded")
 
 
-def match(gender, genderpref, height, heightpref):
+def match(gender, genderpref, height, heightpref, user_value):
     x = 0
     y = 0
+    z = 0
     while x < partners_loaded:
         partner_list = [partner_name[x],
                         partner_gender[x],
@@ -45,23 +46,19 @@ def match(gender, genderpref, height, heightpref):
             #print("match", y)
             #print("partner",x,"was matched")
             partners_possible_list.append(partners_possible)
+
+    while len(partners_possible_list) > z:
+        partner_value = partners_possible_list[z][5]
+        difference = int(user_value) - int(partner_value)
+        del partners_possible_list[z][5]
+        partners_possible_list[z].append(abs(difference))
+        # print(partners_possible[x])
+        z += 1
+    partners_possible_list.sort(key=lambda x: x[5])
     return partners_possible_list
 
 
-def personality_match(user_value, partners_possible):
-    x = 0
-    while len(partners_possible) > x:
-        partner_value = partners_possible[x][5]
-        difference = int(user_value) - int(partner_value)
-        del partners_possible[x][5]
-        partners_possible[x].append(abs(difference))
-        # print(partners_possible[x])
-        x += 1
-    partners_possible.sort(key=lambda x: x[5])
-    return partners_possible
-
-
-def conversion(gender, genderpref, height, heightpref):
+def converter(gender, genderpref, height, heightpref):
     if gender == "1":
         input_gender = "male"
     elif gender == "2":
@@ -151,20 +148,19 @@ def main():
     user_value = (int(input_question1) + int(input_question2) + int(input_question3) + int(input_question4)) * 2
     #totalinput = [input_gender, input_gender_preference, input_height, input_height_preference, personality_value]
 
-    converted = conversion(input_gender, input_gender_preference, input_height, input_height_preference)
+    converted = converter(input_gender, input_gender_preference, input_height, input_height_preference)
     #print(converted)
-    partners_possible = match(converted[0], converted[1], converted[2], converted[3])
+    final_partner = match(converted[0], converted[1], converted[2], converted[3], user_value)
     #print("your possible partners are", partners_possible)
-    sorted_partners = personality_match(user_value, partners_possible)
-    #print(sorted_partners)
+
     print("\nThank you for answering all the questions. We have found your best"
           "match from our database and hope that you enjoy getting to know"
           "each other. Your best match is:")
-    if len(sorted_partners) == 0:
+    if len(final_partner) == 0:
         print("none")
         return "none"
     else:
-        print(sorted_partners[0][0])
-        return sorted_partners[0][0]
+        print(final_partner[0][0])
+        return final_partner[0][0]
 
 main()
