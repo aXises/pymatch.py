@@ -1,7 +1,41 @@
+"""Matches the user with potential partners based on inputs from user
+
+The user will input values when prompted to.
+Based on the values from the user, the program will attempt to match the inputs received from the user to partners
+retrieved from a database.
+Inputs must be numbers which will be validated by a additional function.
+
+Algorithm:
+    1: Prompt user for inputs
+    2: Validate each input by passing the inputs through a function which checks if the input is within the specified
+    range and is not a string
+    3: Convert the inputs in to strings that matches the database
+    4: Passes the converted inputs in to the match function
+    5: The match function will match the user inputs exactly with the database and sort the partners personality
+    difference from the user's personality value, from least to greatest.
+    6: The main function will return the first element from the first list, returned from the match function.
+
+"""
+
 import partners
 
 
 def match(gender, genderpref, height, heightpref, user_value):
+    """Matches inputs from user to potential partners from database.txt.
+
+    Args:
+        gender(str): User gender input.
+        genderpref(str): User preferred gender input.
+        height(str): User height input.
+        heightpref(str): User preferred height input.
+        user_value(str/int): User personality value, generated from input_questions.
+
+    Returns:
+        list: A list of all possible partners which match the arguments from user inputs.
+
+    Raises:
+        IndexError: when data retrieved from database is greater than expected value
+    """
     potential_partners = partners.Partners()
     partner_name = []
     partner_gender = []
@@ -57,6 +91,18 @@ def match(gender, genderpref, height, heightpref, user_value):
 
 
 def converter(gender, genderpref, height, heightpref):
+    """Converts user inputs from numbers to its associated string
+
+    Args:
+        gender(str): User gender input.
+        genderpref(str): User preferred gender input.
+        height(str): User height input.
+        heightpref(str): User preferred height input.
+
+    Returns:
+        list: A list of the user inputs, converted from numbers to strings
+
+    """
     if gender == "1":
         input_gender = "male"
     elif gender == "2":
@@ -90,6 +136,16 @@ def converter(gender, genderpref, height, heightpref):
 
 
 def input_validator(user_inputs, typeof_question):
+    """Validates user inputs to ensure that the input is valid
+
+    Args:
+        user_inputs(int): The user input.
+        typeof_question(str): The type of question that will be validated.
+
+    Returns:
+        int: Returns the user's original input if the input is valid.
+
+    """
     if typeof_question == "std":
         if str.isdigit(user_inputs) and 0 < int(user_inputs) < 3:
             validated_input = user_inputs
@@ -114,6 +170,15 @@ def input_validator(user_inputs, typeof_question):
 
 
 def main():
+    """Main function of the program. Called to start the program.
+
+    Args:
+        This function does not accept any arguments.
+
+    Returns:
+        str: The name of the potential partner according to the user inputs.
+
+    """
     input_name = input("Please enter your name: ")
     print("\nHi", input_name + ".")
     input_gender = input("What is your gender?"
@@ -143,43 +208,43 @@ def main():
     print("\nWe will now ask you some questions to try to determine your personality type.\n")
 
     input_question1 = input("Do you find it easy to introduce yourself to other people?"
-                             "\n1) Yes"
-                             "\n2) Most of the time"
-                             "\n3) Neutral"
-                             "\n4) Some times"
-                             "\n5) No\n"
-                             "Please enter your answer: ")
+                            "\n1) Yes"
+                            "\n2) Most of the time"
+                            "\n3) Neutral"
+                            "\n4) Some times"
+                            "\n5) No\n"
+                            "Please enter your answer: ")
 
     input_question1 = int(input_validator(input_question1, "personality"))
 
     input_question2 = input("\nDo you usually initiate conversations?"
-                             "\n1) Yes"
-                             "\n2) Most of the time"
-                             "\n3) Neutral"
-                             "\n4) Some times"
-                             "\n5) No\n"
-                             "Please enter your answer: ")
+                            "\n1) Yes"
+                            "\n2) Most of the time"
+                            "\n3) Neutral"
+                            "\n4) Some times"
+                            "\n5) No\n"
+                            "Please enter your answer: ")
 
     input_question2 = int(input_validator(input_question2, "personality"))
 
     input_question3 = input("\nDo you often do something out of sheer curiosity?"
-                             "\n1) Yes"
-                             "\n2) Most of the time"
-                             "\n3) Neutral"
-                             "\n4) Some times"
-                             "\n5) No\n"
-                             "Please enter your answer: ")
+                            "\n1) Yes"
+                            "\n2) Most of the time"
+                            "\n3) Neutral"
+                            "\n4) Some times"
+                            "\n5) No\n"
+                            "Please enter your answer: ")
 
     input_question3 = int(input_validator(input_question3, "personality"))
 
     input_question4 = input("\nDo you prefer being out with a large group of "
-                             "friends rather than spending time on your own?"
-                             "\n1) Yes"
-                             "\n2) Most of the time"
-                             "\n3) Neutral"
-                             "\n4) Some times"
-                             "\n5) No\n"
-                             "Please enter your answer: ")
+                            "friends rather than spending time on your own?"
+                            "\n1) Yes"
+                            "\n2) Most of the time"
+                            "\n3) Neutral"
+                            "\n4) Some times"
+                            "\n5) No\n"
+                            "Please enter your answer: ")
 
     input_question4 = int(input_validator(input_question4, "personality"))
 
