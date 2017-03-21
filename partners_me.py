@@ -56,141 +56,133 @@ def match(gender, genderpref, height, heightpref, user_value):
     return partners_possible_list
 
 
-def converter(gender, genderpref, height, heightpref):
-    if gender == "1":
-        input_gender = "male"
-    elif gender == "2":
-        input_gender = "female"
-    elif gender == "3":
-        input_gender = "other"
-
-    if genderpref == "1":
-        input_gender_pref = "male"
-    elif genderpref == "2":
-        input_gender_pref = "female"
-    elif genderpref == "3":
-        input_gender_pref = "other"
-
-    if height == "1":
-        input_height = "tall"
-    elif height == "2":
-        input_height = "medium"
-    elif height == "3":
-        input_height = "short"
-
-    if heightpref == "1":
-        input_height_pref = "tall"
-    elif heightpref == "2":
-        input_height_pref = "medium"
-    elif heightpref == "3":
-        input_height_pref = "short"
-
-    converted_list = [input_gender, input_gender_pref, input_height, input_height_pref]
-    return converted_list
-
-
 def input_validator(user_inputs, typeof_question):
     if typeof_question == "std":
-        if str.isdigit(user_inputs) and 0 < int(user_inputs) < 3:
+        if str.isdigit(user_inputs) and 0 < int(user_inputs) <= 3:
             validated_input = user_inputs
             return validated_input
         else:
             while not str.isdigit(user_inputs) or 0 >= int(user_inputs) or 3 < int(user_inputs):
                 user_inputs = input("Please enter a valid value:")
                 validated_input = user_inputs
-                if str.isdigit(user_inputs) and 0 < int(user_inputs) < 3:
+                if str.isdigit(user_inputs) and 0 < int(user_inputs) <= 3:
                     return validated_input
 
     elif typeof_question == "personality":
-        if str.isdigit(user_inputs) and 0 < int(user_inputs) < 5:
+        if str.isdigit(user_inputs) and 0 < int(user_inputs) <= 5:
             validated_input = user_inputs
             return validated_input
         else:
             while not str.isdigit(user_inputs) or 0 >= int(user_inputs) or 5 < int(user_inputs):
                 user_inputs = input("Please enter a valid value:")
                 validated_input = user_inputs
-                if str.isdigit(user_inputs) and 0 < int(user_inputs) < 5:
+                if str.isdigit(user_inputs) and 0 < int(user_inputs) <= 5:
                     return validated_input
 
 
+def characteristics_question(question, answer1, answer2, answer3, answer4, answer5):
+    if answer4 == 0 and answer5 == 0:
+        input_val = input("\nWhat is your " + question + "?"
+                          "\n1) " + answer1 + "\n2) " + answer2 + "\n3) " + answer3 + "\n"
+                          "Please enter your answer: ")
+        validated_input = input_validator(input_val, "std")
+        if question == "gender" or question == "gender preference":
+            if validated_input == "1":
+                return "male"
+            elif validated_input == "2":
+                return "female"
+            elif validated_input == "3":
+                return "other"
+        elif question == "height" or question == "height preference":
+            if validated_input == "1":
+                return "tall"
+            elif validated_input == "2":
+                return "medium"
+            elif validated_input == "3":
+                return "short"
+    else:
+        if question == "q1":
+            input_val = input("\nDo you find it easy to introduce yourself to other people?"
+                              "\n1) " + answer1 + "\n2) " + answer2 + "\n3) " + answer3 + "\n4) " + answer4 +
+                              "\n5) " + answer5 + "\nPlease enter your answer: ")
+        if question == "q2":
+            input_val = input("\nDo you usually initiate conversations?"
+                              "\n1) " + answer1 + "\n2) " + answer2 + "\n3) " + answer3 + "\n4) " + answer4 +
+                              "\n5) " + answer5 + "\nPlease enter your answer: ")
+        if question == "q3":
+            input_val = input("\nDo you often do something out of sheer curiosity?"
+                              "\n1) " + answer1 + "\n2) " + answer2 + "\n3) " + answer3 + "\n4) " + answer4 +
+                              "\n5) " + answer5 + "\nPlease enter your answer: ")
+        if question == "q4":
+            input_val = input("\nDo you prefer being out with a large group of "
+                              "friends rather than spending time on your own?"
+                              "\n1) " + answer1 + "\n2) " + answer2 + "\n3) " + answer3 + "\n4) " + answer4 +
+                              "\n5) " + answer5 + "\nPlease enter your answer: ")
+        validated_input = input_validator(input_val, "personality")
+        return validated_input
+
+
 def main():
+    input_gender = 0
+    input_gender_preference = 0
+    input_height = 0
+    input_height_preference = 0
+    question_list = ["gender", "gender preference", "height", "height preference", "personality"]
+    personality_question_list = ["q1", "q2", "q3", "q4"]
+    personality_values = []
+    x = 0
+    y = 0
+
+    print("Welcome to PyMatch")
     input_name = input("Please enter your name: ")
     print("\nHi", input_name + ".")
-    input_gender = input("What is your gender?"
-                         "\n1) male\n2) female\n3) other\n"
-                         "Please enter your answer: ")
 
-    input_gender = input_validator(input_gender, "std")
+    while len(question_list) > x:
+        question_type = question_list[x]
+        x += 1
+        if question_type == "gender" or question_type == "gender preference":
+            answer1 = "male"
+            answer2 = "female"
+            answer3 = "other"
+            answer4 = 0
+            answer5 = 0
+            if question_type == "gender":
+                input_gender = characteristics_question(question_type, answer1, answer2, answer3, answer4,
+                                                        answer5)
+            if question_type == "gender preference":
+                input_gender_preference = characteristics_question(question_type, answer1, answer2, answer3, answer4,
+                                                                   answer5)
 
-    input_gender_preference = input("\nWhat is your gender preference?"
-                                    "\n1) male\n2) female\n3) other\n"
-                                    "Please enter your answer: ")
+        if question_type == "height" or question_type == "height preference":
+            answer1 = "tall"
+            answer2 = "medium"
+            answer3 = "short"
+            answer4 = 0
+            answer5 = 0
+            if question_type == "height":
+                input_height = characteristics_question(question_type, answer1, answer2, answer3, answer4,
+                                                        answer5)
+            if question_type == "height preference":
+                input_height_preference = characteristics_question(question_type, answer1, answer2, answer3, answer4,
+                                                                   answer5)
 
-    input_gender_preference = input_validator(input_gender_preference, "std")
+        if question_type == "personality":
+            print("\nWe will now ask you some questions to try to determine your personality type.\n")
+            while len(personality_question_list) > y:
+                question_type = personality_question_list[y]
+                y += 1
+                answer1 = "Yes"
+                answer2 = "Most of the time"
+                answer3 = "Neutral"
+                answer4 = "Some times"
+                answer5 = "No"
+                input_personality = characteristics_question(question_type, answer1, answer2, answer3, answer4,
+                                                             answer5)
+                personality_values.append(input_personality)
 
-    input_height = input("\nWhat is your height?"
-                         "\n1) tall\n2) medium\n3) short\n"
-                         "Please enter your answer: ")
-
-    input_height = input_validator(input_height, "std")
-
-    input_height_preference = input("\nWhat is your height preference?"
-                                    "\n1) tall\n2) medium\n3) short\n"
-                                    "Please enter your answer: ")
-
-    input_height_preference = input_validator(input_height_preference, "std")
-
-    print("\nWe will now ask you some questions to try to determine your personality type.\n")
-
-    input_question1 = input("Do you find it easy to introduce yourself to other people?"
-                             "\n1) Yes"
-                             "\n2) Most of the time"
-                             "\n3) Neutral"
-                             "\n4) Some times"
-                             "\n5) No\n"
-                             "Please enter your answer: ")
-
-    input_question1 = int(input_validator(input_question1, "personality"))
-
-    input_question2 = input("\nDo you usually initiate conversations?"
-                             "\n1) Yes"
-                             "\n2) Most of the time"
-                             "\n3) Neutral"
-                             "\n4) Some times"
-                             "\n5) No\n"
-                             "Please enter your answer: ")
-
-    input_question2 = int(input_validator(input_question2, "personality"))
-
-    input_question3 = input("\nDo you often do something out of sheer curiosity?"
-                             "\n1) Yes"
-                             "\n2) Most of the time"
-                             "\n3) Neutral"
-                             "\n4) Some times"
-                             "\n5) No\n"
-                             "Please enter your answer: ")
-
-    input_question3 = int(input_validator(input_question3, "personality"))
-
-    input_question4 = input("\nDo you prefer being out with a large group of "
-                             "friends rather than spending time on your own?"
-                             "\n1) Yes"
-                             "\n2) Most of the time"
-                             "\n3) Neutral"
-                             "\n4) Some times"
-                             "\n5) No\n"
-                             "Please enter your answer: ")
-
-    input_question4 = int(input_validator(input_question4, "personality"))
-
-    user_value = (input_question1 + input_question2 + input_question3 + input_question4) * 2
-    # totalinput = [input_gender, input_gender_preference, input_height, input_height_preference, personality_value]
-
-    converted = converter(input_gender, input_gender_preference, input_height, input_height_preference)
-    # print(converted)
-    final_partner = match(converted[0], converted[1], converted[2], converted[3], user_value)
-    # print("your possible partners are", partners_possible)
-
+    total_inputs = [input_gender, input_gender_preference, input_height, input_height_preference, personality_values]
+    user_pvalue = int(total_inputs[4][0]) + int(total_inputs[4][1]) + int(total_inputs[4][2]) + int(total_inputs[4][3])
+    final_partner = match(total_inputs[0], total_inputs[1], total_inputs[2], total_inputs[3], user_pvalue*2)
     print("\nThank you for answering all the questions. We have found your best"
           "match from our database and hope that you enjoy getting to know"
           "each other. Your best match is:")
