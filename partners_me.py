@@ -2,6 +2,7 @@ import partners
 
 
 def match(gender, genderpref, height, heightpref, user_value):
+    #Variables
     potential_partners = partners.Partners()
     partner_name = []
     partner_gender = []
@@ -10,8 +11,17 @@ def match(gender, genderpref, height, heightpref, user_value):
     partner_height_preference = []
     partner_score = []
     partners_possible_list = []
-
+    partners_equal_personality = []
+    secondary_partner = []
+    lowest_difference = 0
+    #Counters
     partners_loaded = 0
+    x = 0
+    y = 0
+    z = 0
+    a = 0
+    b = 0
+    # print("There are", partners_loaded, "partners loaded")
     while potential_partners.available():
         partners_loaded += 1
         partner_name.append(potential_partners.get_name())
@@ -21,10 +31,6 @@ def match(gender, genderpref, height, heightpref, user_value):
         partner_height_preference.append(potential_partners.get_height_pref())
         partner_score.append(potential_partners.get_personality_score())
 
-    # print("There are", partners_loaded, "partners loaded")
-    x = 0
-    y = 0
-    z = 0
     while x < partners_loaded:
         partner_list = [partner_name[x],
                         partner_gender[x],
@@ -35,10 +41,7 @@ def match(gender, genderpref, height, heightpref, user_value):
         x += 1
         # print(partner_list)
         # print(x)
-        if partner_list[1] == genderpref \
-                and partner_list[2] == gender \
-                and partner_list[3] == heightpref \
-                and partner_list[4] == height:
+        if partner_list[1] == genderpref and partner_list[2] == gender:
             y += 1
             partners_possible = partner_list
             # print("match", y)
@@ -53,6 +56,30 @@ def match(gender, genderpref, height, heightpref, user_value):
         # print(partners_possible[x])
         z += 1
     partners_possible_list.sort(key=lambda x: x[5])
+
+    if len(partners_possible_list) > 0:
+        lowest_difference = partners_possible_list[0][5]
+
+    if len(partners_possible_list) >= 2:
+        while len(partners_possible_list) > a:
+            if partners_possible_list[a][5] == lowest_difference:
+                partners_equal_personality.append(partners_possible_list[a])
+            a += 1
+
+    #print(partners_equal_personality)
+    if len(partners_equal_personality) > 0:
+        while len(partners_equal_personality) > b:
+            if partners_equal_personality[b][3] == heightpref:
+                secondary_partner.append(partners_equal_personality[b])
+                #print("matched height preference",secondary_partner)
+                return secondary_partner
+            elif partners_equal_personality[b][4] == height:
+                secondary_partner.append(partners_equal_personality[b])
+                #print("matched partner's height preference",secondary_partner)
+                return secondary_partner
+            b += 1
+
+    #print(partners_possible_list)
     return partners_possible_list
 
 
