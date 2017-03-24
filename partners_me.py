@@ -33,6 +33,13 @@ def match(gender, genderpref, height, heightpref, user_value):
        Raises:
            IndexError: when data retrieved from database is greater than expected value
    """
+    # Element position for partner attributes
+    PARTNER_GENDER = 1
+    PARTNER_GENDER_PREF = 2
+    PARTNER_HEIGHT = 3
+    PARTNER_HEIGHT_PREF = 4
+    PARTNER_PERSONALITY_VALUE = 5
+    # Function variables
     potential_partners = partners.Partners()
     partner_name = []
     partner_gender = []
@@ -45,6 +52,7 @@ def match(gender, genderpref, height, heightpref, user_value):
     secondary_partner = []
     lowest_difference = 0
     partners_loaded = 0
+    #Counter variables
     x = 0
     y = 0
     z = 0
@@ -67,34 +75,34 @@ def match(gender, genderpref, height, heightpref, user_value):
                         partner_height_preference[x],
                         partner_score[x]]
         x += 1
-        if partner_list[1] == genderpref and partner_list[2] == gender:
+        if partner_list[PARTNER_GENDER] == genderpref and partner_list[PARTNER_GENDER_PREF] == gender:
             y += 1
             partners_possible = partner_list
             partners_possible_list.append(partners_possible)
 
     while len(partners_possible_list) > z:
-        partner_value = partners_possible_list[z][5]
+        partner_value = partners_possible_list[z][PARTNER_PERSONALITY_VALUE]
         difference = int(user_value) - int(partner_value)
         del partners_possible_list[z][5]
         partners_possible_list[z].append(abs(difference))
         z += 1
-    partners_possible_list.sort(key=lambda x: x[5])
+    partners_possible_list.sort(key=lambda x: x[PARTNER_PERSONALITY_VALUE])
 
     if len(partners_possible_list) > 0:
-        lowest_difference = partners_possible_list[0][5]
+        lowest_difference = partners_possible_list[0][PARTNER_PERSONALITY_VALUE]
 
     if len(partners_possible_list) >= 2:
         while len(partners_possible_list) > a:
-            if partners_possible_list[a][5] == lowest_difference:
+            if partners_possible_list[a][PARTNER_PERSONALITY_VALUE] == lowest_difference:
                 partners_equal_personality.append(partners_possible_list[a])
             a += 1
 
     if len(partners_equal_personality) > 0:
         while len(partners_equal_personality) > b:
-            if partners_equal_personality[b][3] == heightpref:
+            if partners_equal_personality[b][PARTNER_HEIGHT] == heightpref:
                 secondary_partner.append(partners_equal_personality[b])
                 return secondary_partner
-            elif partners_equal_personality[b][4] == height:
+            elif partners_equal_personality[b][PARTNER_HEIGHT_PREF] == height:
                 secondary_partner.append(partners_equal_personality[b])
                 return secondary_partner
             b += 1
@@ -110,7 +118,7 @@ def input_validator(user_inputs, typeof_question):
         Returns:
             int: Returns the user's original input if the input is valid.
     """
-    if typeof_question == "std":
+    if typeof_question == "character":
         if str.isdigit(user_inputs) and 0 < int(user_inputs) <= 3:
             validated_input = user_inputs
             return validated_input
@@ -145,11 +153,12 @@ def characteristics_question(question, answer1, answer2, answer3, answer4, answe
         Returns:
             str: Returns the answer selected by the user.
     """
+    input_val = 0
     if answer4 == 0 and answer5 == 0:
         input_val = input("\nWhat is your " + question + "?"
                           "\n1) " + answer1 + "\n2) " + answer2 + "\n3) " + answer3 + "\n"
                           "Please enter your answer: ")
-        validated_input = input_validator(input_val, "std")
+        validated_input = input_validator(input_val, "character")
         if question == "gender" or question == "gender preference":
             if validated_input == "1":
                 return "male"
@@ -193,6 +202,14 @@ def main():
         Returns:
             str: The name of the potential partner according to the user inputs.
     """
+    #Element positions for user attributes
+    PARTNER_NAME = 0
+    FIRST_PARTNER = 0
+    USER_GENDER = 0
+    USER_GENDER_PREF = 1
+    USER_HEIGHT = 2
+    USER_HEIGHT_PREF = 3
+    #Function variables
     input_gender = 0
     input_gender_preference = 0
     input_height = 0
@@ -200,6 +217,7 @@ def main():
     question_list = ["gender", "gender preference", "height", "height preference", "personality"]
     personality_question_list = ["q1", "q2", "q3", "q4"]
     personality_values = []
+    #Counter variables
     x = 0
     y = 0
 
@@ -250,18 +268,29 @@ def main():
                                                              answer5)
                 personality_values.append(input_personality)
 
-    total_inputs = [input_gender, input_gender_preference, input_height, input_height_preference, personality_values]
+    total_inputs = [input_gender,
+                    input_gender_preference,
+                    input_height,
+                    input_height_preference,
+                    personality_values]
+
     user_pvalue = int(total_inputs[4][0]) + int(total_inputs[4][1]) + int(total_inputs[4][2]) + int(total_inputs[4][3])
-    final_partner = match(total_inputs[0], total_inputs[1], total_inputs[2], total_inputs[3], user_pvalue*2)
+
+    final_partner = match(total_inputs[USER_GENDER],
+                          total_inputs[USER_GENDER_PREF],
+                          total_inputs[USER_HEIGHT],
+                          total_inputs[USER_HEIGHT_PREF], user_pvalue*2)
+
     print("\nThank you for answering all the questions. We have found your best"
           "match from our database and hope that you enjoy getting to know"
           "each other. Your best match is:")
+
     if len(final_partner) == 0:
         print("none")
         return "none"
     else:
-        print(final_partner[0][0])
-        return final_partner[0][0]
+        print(final_partner[FIRST_PARTNER][PARTNER_NAME])
+        return final_partner[FIRST_PARTNER][PARTNER_NAME]
 
 
 main()
