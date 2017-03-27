@@ -11,8 +11,8 @@ Algorithm:
     3: The validated input format will be the same as the database format.
     4: Passes the converted inputs in to the match function
     5: The match function will match the user inputs with the database and sort the partners personality
-    difference from the user's personality value, from least to greatest. If there is multiple personality values that
-    are the name, the height and height preference will be matched.
+    difference from the user's personality value, from least to greatest. If there are multiple personality values that
+    are the name, the height and height preference will then be matched.
     6: The main function will return the first element from the first list, returned from the match function. None if
     the list is empty.
 """
@@ -52,7 +52,7 @@ def match(gender, genderpref, height, heightpref, user_value):
     secondary_partner = []
     lowest_difference = 0
     partners_loaded = 0
-    #Counter variables
+    # Counter variables
     x = 0
     y = 0
     z = 0
@@ -86,8 +86,8 @@ def match(gender, genderpref, height, heightpref, user_value):
         del partners_possible_list[z][5]
         partners_possible_list[z].append(abs(difference))
         z += 1
-    partners_possible_list.sort(key=lambda x: x[PARTNER_PERSONALITY_VALUE])
-
+    partners_possible_list.sort()
+    print(partners_possible_list)
     if len(partners_possible_list) > 0:
         lowest_difference = partners_possible_list[0][PARTNER_PERSONALITY_VALUE]
 
@@ -154,10 +154,17 @@ def characteristics_question(question, answer1, answer2, answer3, answer4, answe
             str: Returns the answer selected by the user.
     """
     input_val = 0
+    if question == "height preference":
+        input_val = input("\nWhat height do you prefer your partner to be?"
+                          "\n1) " + answer1 + "\n2) " + answer2 + "\n3) " + answer3 + "\n"
+                                                                                      "Please enter your answer: ")
+        validated_input = input_validator(input_val, "character")
+        return validated_input
+
     if answer4 == 0 and answer5 == 0:
         input_val = input("\nWhat is your " + question + "?"
-                          "\n1) " + answer1 + "\n2) " + answer2 + "\n3) " + answer3 + "\n"
-                          "Please enter your answer: ")
+                                                         "\n1) " + answer1 + "\n2) " + answer2 + "\n3) " + answer3 + "\n"
+                                                                                                                     "Please enter your answer: ")
         validated_input = input_validator(input_val, "character")
         if question == "gender" or question == "gender preference":
             if validated_input == "1":
@@ -202,14 +209,15 @@ def main():
         Returns:
             str: The name of the potential partner according to the user inputs.
     """
-    #Element positions for user attributes
+    # Element positions for user attributes
     PARTNER_NAME = 0
     FIRST_PARTNER = 0
     USER_GENDER = 0
     USER_GENDER_PREF = 1
     USER_HEIGHT = 2
     USER_HEIGHT_PREF = 3
-    #Function variables
+    PERSONALITY_VALUE = 4
+    # Function variables
     input_gender = 0
     input_gender_preference = 0
     input_height = 0
@@ -217,7 +225,7 @@ def main():
     question_list = ["gender", "gender preference", "height", "height preference", "personality"]
     personality_question_list = ["q1", "q2", "q3", "q4"]
     personality_values = []
-    #Counter variables
+    # Counter variables
     x = 0
     y = 0
 
@@ -274,22 +282,25 @@ def main():
                     input_height_preference,
                     personality_values]
 
-    user_pvalue = int(total_inputs[4][0]) + int(total_inputs[4][1]) + int(total_inputs[4][2]) + int(total_inputs[4][3])
+    user_pvalue = int(total_inputs[PERSONALITY_VALUE][0]) + \
+                  int(total_inputs[PERSONALITY_VALUE][1]) + \
+                  int(total_inputs[PERSONALITY_VALUE][2]) + \
+                  int(total_inputs[PERSONALITY_VALUE][3])
 
     final_partner = match(total_inputs[USER_GENDER],
                           total_inputs[USER_GENDER_PREF],
                           total_inputs[USER_HEIGHT],
-                          total_inputs[USER_HEIGHT_PREF], user_pvalue*2)
+                          total_inputs[USER_HEIGHT_PREF], user_pvalue * 2)
 
     print("\nThank you for answering all the questions. We have found your best"
           "match from our database and hope that you enjoy getting to know"
           "each other. Your best match is:")
 
     if len(final_partner) == 0:
-        print("none")
+        #print("none")
         return "none"
     else:
-        print(final_partner[FIRST_PARTNER][PARTNER_NAME])
+        #print(final_partner[FIRST_PARTNER][PARTNER_NAME])
         return final_partner[FIRST_PARTNER][PARTNER_NAME]
 
 
