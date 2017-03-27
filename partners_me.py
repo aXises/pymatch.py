@@ -87,7 +87,7 @@ def match(gender, genderpref, height, heightpref, user_value):
         partners_possible_list[z].append(abs(difference))
         z += 1
     partners_possible_list.sort()
-    print(partners_possible_list)
+
     if len(partners_possible_list) > 0:
         lowest_difference = partners_possible_list[0][PARTNER_PERSONALITY_VALUE]
 
@@ -163,8 +163,8 @@ def characteristics_question(question, answer1, answer2, answer3, answer4, answe
 
     if answer4 == 0 and answer5 == 0:
         input_val = input("\nWhat is your " + question + "?"
-                                                         "\n1) " + answer1 + "\n2) " + answer2 + "\n3) " + answer3 + "\n"
-                                                                                                                     "Please enter your answer: ")
+                          "\n1) " + answer1 + "\n2) " + answer2 + "\n3) " + answer3 + "\n"
+                          "Please enter your answer: ")
         validated_input = input_validator(input_val, "character")
         if question == "gender" or question == "gender preference":
             if validated_input == "1":
