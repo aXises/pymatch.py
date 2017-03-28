@@ -106,6 +106,8 @@ def match(gender, genderpref, height, heightpref, user_value):
             elif partners_equal_personality[b][PARTNER_HEIGHT_PREF] == height:
                 secondary_partner.append(partners_equal_personality[b])
                 return secondary_partner
+            else:
+                return 0
             b += 1
 
     return partners_possible_list
@@ -297,7 +299,7 @@ def main():
           "match from our database and hope that you enjoy getting to know"
           "each other. Your best match is:")
 
-    if len(final_partner) == 0:
+    if len(final_partner) == 0 or final_partner == 0:
         #print("none")
         return "none"
     else:
