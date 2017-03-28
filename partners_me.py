@@ -86,8 +86,9 @@ def match(gender, genderpref, height, heightpref, user_value):
         del partners_possible_list[z][5]
         partners_possible_list[z].append(abs(difference))
         z += 1
-    partners_possible_list.sort()
-
+        
+    partners_possible_list.sort(key=lambda x: x[PARTNER_PERSONALITY_VALUE])
+    
     if len(partners_possible_list) > 0:
         lowest_difference = partners_possible_list[0][PARTNER_PERSONALITY_VALUE]
 
@@ -304,4 +305,4 @@ def main():
         return final_partner[FIRST_PARTNER][PARTNER_NAME]
 
 
-main()
+#main()
