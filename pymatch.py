@@ -1,20 +1,23 @@
 """Matches the user with potential partners based on inputs from user
 The user will input values when prompted to.
-Based on the values from the user, the program will attempt to match the inputs received from the user to partners
-retrieved from a database.
+Based on the values from the user, the program will attempt to match the
+inputs received from the user to partners retrieved from a database.
 Inputs must be numbers which will be validated by a additional function.
 
 Algorithm:
     1: Prompt user for inputs
-    2: Validate each input by passing the inputs through a function which checks if the input is within the specified
+    2: Validate each input by passing the inputs through a function which
+    checks if the input is within the specified
     range and is not a string.
     3: The validated input format will be the same as the database format.
     4: Passes the converted inputs in to the match function
-    5: The match function will match the user inputs with the database and sort the partners personality
-    difference from the user's personality value, from least to greatest. If there are multiple personality values that
-    are the name, the height and height preference will then be matched.
-    6: The main function will return the first element from the first list, returned from the match function. None if
-    the list is empty.
+    5: The match function will match the user inputs with the database and
+    sort the partners personality
+    difference from the user's personality value, from least to greatest.
+    If there are multiple personality values which  are the name, the height
+    and height preference will then be matched.
+    6: The main function will return the first element from the first list,
+    returned from the match function. None if the list is empty.
 """
 
 import partners
@@ -27,11 +30,14 @@ def match(gender, genderpref, height, heightpref, user_value):
            genderpref(str): User preferred gender input.
            height(str): User height input.
            heightpref(str): User preferred height input.
-           user_value(str/int): User personality value, generated from input_questions.
+           user_value(str/int): User personality value, generated
+           from input_questions.
        Returns:
-           list: A list of all possible partners eligible according to the user inputs.
+           list: A list of all possible partners eligible according
+           to the user inputs.
        Raises:
-           IndexError: when data retrieved from database is greater than expected value
+           IndexError: when data retrieved from database is greater
+           than expected value
    """
     # Element position for partner attributes
     PARTNER_GENDER = 1
@@ -75,7 +81,8 @@ def match(gender, genderpref, height, heightpref, user_value):
                         partner_height_preference[x],
                         partner_score[x]]
         x += 1
-        if partner_list[PARTNER_GENDER] == genderpref and partner_list[PARTNER_GENDER_PREF] == gender:
+        if partner_list[PARTNER_GENDER] == genderpref and partner_list[
+           PARTNER_GENDER_PREF] == gender:
             y += 1
             partners_possible = partner_list
             partners_possible_list.append(partners_possible)
@@ -86,15 +93,16 @@ def match(gender, genderpref, height, heightpref, user_value):
         del partners_possible_list[z][5]
         partners_possible_list[z].append(abs(difference))
         z += 1
-        
+
     partners_possible_list.sort(key=lambda x: x[PARTNER_PERSONALITY_VALUE])
-    
+
     if len(partners_possible_list) > 0:
         lowest_difference = partners_possible_list[0][PARTNER_PERSONALITY_VALUE]
 
     if len(partners_possible_list) >= 2:
         while len(partners_possible_list) > a:
-            if partners_possible_list[a][PARTNER_PERSONALITY_VALUE] == lowest_difference:
+            if partners_possible_list[a][
+                PARTNER_PERSONALITY_VALUE] == lowest_difference:
                 partners_equal_personality.append(partners_possible_list[a])
             a += 1
 
@@ -126,7 +134,8 @@ def input_validator(user_inputs, typeof_question):
             validated_input = user_inputs
             return validated_input
         else:
-            while not str.isdigit(user_inputs) or 0 >= int(user_inputs) or 3 < int(user_inputs):
+            while not str.isdigit(user_inputs) or 0 >= int(user_inputs) \
+                    or 3 < int(user_inputs):
                 user_inputs = input("Please enter a valid value:")
                 validated_input = user_inputs
                 if str.isdigit(user_inputs) and 0 < int(user_inputs) <= 3:
@@ -137,36 +146,42 @@ def input_validator(user_inputs, typeof_question):
             validated_input = user_inputs
             return validated_input
         else:
-            while not str.isdigit(user_inputs) or 0 >= int(user_inputs) or 5 < int(user_inputs):
+            while not str.isdigit(user_inputs) or 0 >= int(user_inputs) \
+                    or 5 < int(user_inputs):
                 user_inputs = input("Please enter a valid value:")
                 validated_input = user_inputs
                 if str.isdigit(user_inputs) and 0 < int(user_inputs) <= 5:
                     return validated_input
 
 
-def characteristics_question(question, answer1, answer2, answer3, answer4, answer5):
+def characteristics_question(question, answer1, answer2, answer3, answer4,
+                             answer5):
     """Prompts the user for inputs
         Args:
             question(str) : The type of question that will be asked.
             answer1(str) : One possible answer to the question asked.
             answer2(str) : One possible answer to the question asked.
             answer3(str) : One possible answer to the question asked.
-            answer4(str) : One possible answer to the question asked (personality questions only).
-            answer5(str) : One possible answer to the question asked (personality questions only).
+            answer4(str) : One possible answer to the question asked
+            (personality questions only).
+            answer5(str) : One possible answer to the question asked
+            (personality questions only).
         Returns:
             str: Returns the answer selected by the user.
     """
     input_val = 0
     if question == "height preference":
         input_val = input("\nWhat height do you prefer your partner to be?"
-                          "\n1) " + answer1 + "\n2) " + answer2 + "\n3) " + answer3 + "\n"
-                                                                                      "Please enter your answer: ")
+                          "\n1) " + answer1 + "\n2) " + answer2 + "\n3) " +
+                          answer3 + "\n"
+                          "Please enter your answer: ")
         validated_input = input_validator(input_val, "character")
         return validated_input
 
     if answer4 == 0 and answer5 == 0:
         input_val = input("\nWhat is your " + question + "?"
-                          "\n1) " + answer1 + "\n2) " + answer2 + "\n3) " + answer3 + "\n"
+                          "\n1) " + answer1 + "\n2) " + answer2 + "\n3) " +
+                          answer3 + "\n"
                           "Please enter your answer: ")
         validated_input = input_validator(input_val, "character")
         if question == "gender" or question == "gender preference":
@@ -185,22 +200,31 @@ def characteristics_question(question, answer1, answer2, answer3, answer4, answe
                 return "short"
     else:
         if question == "q1":
-            input_val = input("\nDo you find it easy to introduce yourself to other people?"
-                              "\n1) " + answer1 + "\n2) " + answer2 + "\n3) " + answer3 + "\n4) " + answer4 +
-                              "\n5) " + answer5 + "\nPlease enter your answer: ")
+            input_val = input("\nDo you find it easy to introduce"
+                              "yourself to other people?"
+                              "\n1) " + answer1 + "\n2) " + answer2 + "\n3) "
+                              + answer3 + "\n4) " + answer4 + "\n5) "
+                              + answer5 + "\nPlease enter your answer: ")
         if question == "q2":
             input_val = input("\nDo you usually initiate conversations?"
-                              "\n1) " + answer1 + "\n2) " + answer2 + "\n3) " + answer3 + "\n4) " + answer4 +
-                              "\n5) " + answer5 + "\nPlease enter your answer: ")
+                              "\n1) " + answer1 + "\n2) " + answer2 + "\n3) "
+                              + answer3 +
+                              "\n4) " + answer4 + "\n5) " + answer5 +
+                              "\nPlease enter your answer: ")
         if question == "q3":
-            input_val = input("\nDo you often do something out of sheer curiosity?"
-                              "\n1) " + answer1 + "\n2) " + answer2 + "\n3) " + answer3 + "\n4) " + answer4 +
-                              "\n5) " + answer5 + "\nPlease enter your answer: ")
+            input_val = input(
+                "\nDo you often do something out of sheer curiosity?"
+                "\n1) " + answer1 + "\n2) " + answer2 + "\n3) "
+                + answer3 +
+                "\n4) " + answer4 + "\n5) " + answer5 +
+                "\nPlease enter your answer: ")
         if question == "q4":
-            input_val = input("\nDo you prefer being out with a large group of "
+            input_val = input("\nDo you prefer being out with a large group of"
                               "friends rather than spending time on your own?"
-                              "\n1) " + answer1 + "\n2) " + answer2 + "\n3) " + answer3 + "\n4) " + answer4 +
-                              "\n5) " + answer5 + "\nPlease enter your answer: ")
+                              "\n1) " + answer1 + "\n2) " + answer2 + "\n3) "
+                              + answer3 +
+                              "\n4) " + answer4 + "\n5) " + answer5 +
+                              "\nPlease enter your answer: ")
         validated_input = input_validator(input_val, "personality")
         return validated_input
 
@@ -225,7 +249,8 @@ def main():
     input_gender_preference = 0
     input_height = 0
     input_height_preference = 0
-    question_list = ["gender", "gender preference", "height", "height preference", "personality"]
+    question_list = ["gender", "gender preference", "height",
+                     "height preference", "personality"]
     personality_question_list = ["q1", "q2", "q3", "q4"]
     personality_values = []
     # Counter variables
@@ -236,6 +261,7 @@ def main():
     input_name = input("Please enter your name: ")
     print("\nHi", input_name + ".")
 
+    #Main loop
     while len(question_list) > x:
         question_type = question_list[x]
         x += 1
@@ -246,11 +272,13 @@ def main():
             answer4 = 0
             answer5 = 0
             if question_type == "gender":
-                input_gender = characteristics_question(question_type, answer1, answer2, answer3, answer4,
-                                                        answer5)
+                input_gender = characteristics_question(question_type, answer1,
+                                                        answer2, answer3,
+                                                        answer4, answer5)
             if question_type == "gender preference":
-                input_gender_preference = characteristics_question(question_type, answer1, answer2, answer3, answer4,
-                                                                   answer5)
+                input_gender_preference = characteristics_question(
+                    question_type, answer1, answer2, answer3, answer4,
+                    answer5)
 
         if question_type == "height" or question_type == "height preference":
             answer1 = "tall"
@@ -259,14 +287,18 @@ def main():
             answer4 = 0
             answer5 = 0
             if question_type == "height":
-                input_height = characteristics_question(question_type, answer1, answer2, answer3, answer4,
-                                                        answer5)
+                input_height = characteristics_question(question_type, answer1,
+                                                        answer2, answer3,
+                                                        answer4, answer5)
             if question_type == "height preference":
-                input_height_preference = characteristics_question(question_type, answer1, answer2, answer3, answer4,
-                                                                   answer5)
+                input_height_preference = characteristics_question(
+                    question_type, answer1, answer2, answer3, answer4,
+                    answer5)
 
         if question_type == "personality":
-            print("\nWe will now ask you some questions to try to determine your personality type.\n")
+            print(
+                "\nWe will now ask you some questions to try to determine your "
+                "personality type.\n")
             while len(personality_question_list) > y:
                 question_type = personality_question_list[y]
                 y += 1
@@ -275,7 +307,9 @@ def main():
                 answer3 = "Neutral"
                 answer4 = "Some times"
                 answer5 = "No"
-                input_personality = characteristics_question(question_type, answer1, answer2, answer3, answer4,
+                input_personality = characteristics_question(question_type,
+                                                             answer1, answer2,
+                                                             answer3, answer4,
                                                              answer5)
                 personality_values.append(input_personality)
 
@@ -300,11 +334,11 @@ def main():
           "each other. Your best match is:")
 
     if len(final_partner) == 0 or final_partner == 0:
-        #print("none")
+        print("none")
         return "none"
     else:
-        #print(final_partner[FIRST_PARTNER][PARTNER_NAME])
+        print(final_partner[FIRST_PARTNER][PARTNER_NAME])
         return final_partner[FIRST_PARTNER][PARTNER_NAME]
 
 
-#main()
+main()
